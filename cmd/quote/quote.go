@@ -56,7 +56,7 @@ var (
 
 func init() {
 	Cmd.Flags().BoolVarP(&infoF, "info", "i", false, "set for a more informative quote for each symbol")
-	Cmd.Flags().StringVarP(&formatF, "format", "f", "", "set (equity|etf|future|fx|crypto|fund|option|idx) to request formatted quotes to specific asset types ")
+	Cmd.Flags().StringVarP(&formatF, "format", "f", "", "set (equity|etf|future|fx|crypto|fund|option|idx|equityValue) to request formatted quotes to specific asset types ")
 }
 
 // execute implements the quote command
@@ -121,6 +121,8 @@ func fields() []string {
 		return FieldIndex()
 	case "fund":
 		return FieldsMutualFund()
+	case "equityValue":
+		return FieldsEquityValue()
 	default:
 		if infoF {
 			return FieldsInfoQuote()
@@ -132,7 +134,7 @@ func fields() []string {
 func value(field string, quote interface{}) string {
 	// Fields based on quote type.
 	switch formatF {
-	case "equity":
+	case "equity", "equityValue":
 		return MapEquity(field, quote.(*finance.Equity))
 	case "etf":
 		return MapETF(field, quote.(*finance.ETF))
@@ -160,7 +162,7 @@ func value(field string, quote interface{}) string {
 func quotes(symbols []string) quoteIter {
 	// Request based on quote type.
 	switch formatF {
-	case "equity":
+	case "equity", "equityValue":
 		return equity.List(symbols)
 	case "etf":
 		return etf.List(symbols)
