@@ -78,6 +78,12 @@ func FieldsEquity() (fields []string) {
 		DivYield, DivDate, PETrailing, PEForward, BookValue, PB, MarketCap)
 }
 
+// FieldsEquityValue return fields for a fundamental analysis
+func FieldsEquityValue() (fields []string) {
+	return []string{Symbol, Security, Name, EpsTrailing, EpsForward, EpsDate, DivTrailing,
+		DivYield, DivDate, PETrailing, PEForward, BookValue, PB, MarketCap}
+}
+
 // FieldsETF returns the fields for an etf.
 func FieldsETF() (fields []string) {
 	return append(FieldsInfoQuote(), YTDReturn, QtrReturn, QtrNavReturn)
